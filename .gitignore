@@ -1,0 +1,56 @@
+# ОС
+.DS_Store
+Thumbs.db
+
+# Лог файлы
+*.log
+
+# Каталоги IDE
+.idea/
+.vscode/
+
+# Каталоги и файлы для Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+*.env
+
+# Для Node.js
+node_modules/
+
+# Для Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Для Ruby
+*.gem
+*.bundle
+*.rbc
+.sass-cache/
+.yarn-cache/
+
+# Для C#
+bin/
+obj/
+
+# Для macOS
+*.swp
+*.swo
+*~
+
+# Для компиляций JavaScript (например, из TypeScript)
+dist/
+build/
+
+# Для backup файлов
+*.bak
+*.tmp
+
+# Прочие специфичные файлы и папки
+.vscode/
+.idea/
