@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.html import mark_safe
-
+from tinymce.models import HTMLField
 
 class Location(models.Model):
     title = models.CharField(max_length=200)
     description_short = models.TextField()
-    description_long = models.TextField()
+    description_long = HTMLField()
     lng = models.FloatField()
     lat = models.FloatField()
     uploaded_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
