@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Location, Image
 
 
-class ImageInline(SortableInlineAdminMixin, admin.TabularInline):  # Используем TabularInline или StackedInline
+class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
     extra = 1
     fields = ['image', 'image_preview',  'position']
@@ -13,9 +13,9 @@ class ImageInline(SortableInlineAdminMixin, admin.TabularInline):  # Испол�
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ['title', 'uploaded_at']  # Поля для списка объектов
-    search_fields = ('title',)  # Поиск по названию
-    ordering = ('title',)  # Сортировка по названию
+    list_display = ['title', 'uploaded_at']
+    search_fields = ('title',)
+    ordering = ('title',)
     inlines = [ImageInline]
 
 

@@ -16,29 +16,25 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         directory_path = kwargs['directory_path']
 
-        # Перебор всех файлов в указанной директории
         for file_name in os.listdir(directory_path):
             if file_name.endswith('.json'):
                 file_path = os.path.join(directory_path, file_name)
                 self.stdout.write(self.style.NOTICE(f"Loading data from {file_path}"))
 
-                # Загрузка данных из JSON файла
                 with open(file_path, 'r', encoding='utf-8') as file:
-                    data = json.load(file)
+                    location_json = json.load(file)
 
-                # Создание или получение локации
                 place, created = Location.objects.get_or_create(
-                    title=data['title'],
+                    title=location_json['title'],
                     defaults={
-                        'description_short': data['description_short'],
-                        'description_long': data['description_long'],
-                        'lng': data['coordinates']['lng'],
-                        'lat': data['coordinates']['lat'],
+                        'description_short': location_json['description_short'],
+                        'description_long': location_json['description_long'],
+                        'lng': location_json['coordinates']['lng'],
+                        'lat': location_json['coordinates']['lat'],
                     }
                 )
 
-                # Добавление изображений
-                for img_url in data['imgs']:
+                for img_url in location_json['imgs']:
                     response = requests.get(img_url)
                     if response.status_code == 200:
                         image_name = os.path.basename(urlparse(img_url).path)
