@@ -1,9 +1,9 @@
-
+from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from .models import Location, Image
 
 
-class ImageInline(admin.TabularInline):  # Используем TabularInline или StackedInline
+class ImageInline(SortableInlineAdminMixin, admin.TabularInline):  # Используем TabularInline или StackedInline
     model = Image
     extra = 1
     fields = ['image', 'image_preview',  'position']
