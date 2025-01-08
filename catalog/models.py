@@ -15,6 +15,10 @@ class Image(models.Model):
     location = models.ForeignKey('Location', related_name='image', on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(upload_to='images/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    position = models.PositiveIntegerField(default=0, verbose_name="Позиция")
+
+    class Meta:
+        ordering = ['position']
 
     def __str__(self):
         return f"Image for {self.location.title}"
