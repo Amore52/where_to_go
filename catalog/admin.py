@@ -7,6 +7,7 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ('title',)  # Поиск по названию
     ordering = ('title',)  # Сортировка по названию
 
+
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     list_display = ['location', 'uploaded_at']
