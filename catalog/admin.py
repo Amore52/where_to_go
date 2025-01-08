@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from .models import Location, Image
 
@@ -5,9 +6,10 @@ from .models import Location, Image
 class ImageInline(admin.TabularInline):  # Используем TabularInline или StackedInline
     model = Image
     extra = 1
-    fields = ['image', 'position']
+    fields = ['image', 'image_preview',  'position']
     ordering = ['position']
-    readonly_fields = []
+    readonly_fields = ['image_preview']
+
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):

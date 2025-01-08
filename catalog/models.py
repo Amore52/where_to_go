@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.html import mark_safe
+
 
 class Location(models.Model):
     title = models.CharField(max_length=200)
@@ -19,6 +21,13 @@ class Image(models.Model):
 
     class Meta:
         ordering = ['position']
+
+    def image_preview(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" style="width: 200px; height: auto;" />')
+        return "Нет изображения"
+
+    image_preview.short_description = "Превью"
 
     def __str__(self):
         return f"Image for {self.location.title}"
