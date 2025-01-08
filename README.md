@@ -24,9 +24,6 @@
 ### Шаги
 
 1. Клонируйте репозиторий:
-   ```
-   git clone https://github.com/your-username/tourist-map.git
-   cd tourist-map
 
 2. Установите зависимости Python:
     ```
