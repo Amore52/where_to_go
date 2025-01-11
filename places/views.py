@@ -40,8 +40,8 @@ def place_details(request, place_id):
         images = Image.objects.filter(location=location)
         return JsonResponse({
             'title': location.title,
-            'description_short': location.description_short,
-            'description_long': location.description_long,
+            'short_discription': location.short_description,
+            'long_discription': location.long_discription,
             'imgs': [image.image.url for image in images],
         })
     except Location.DoesNotExist:
