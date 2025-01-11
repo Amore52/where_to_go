@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from places.models import Location, Image
 import json
 
+
 def main_page(request):
     places_data = []
     locations = Location.objects.all()
