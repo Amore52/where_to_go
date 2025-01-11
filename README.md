@@ -81,8 +81,8 @@
 ```
 {
     "title": "Пример места",
-    "description_short": "Краткое описание места",
-    "description_long": "Детальное описание места",
+    "short_description": "Краткое описание места",
+    "long_description": "Детальное описание места",
     "coordinates": {
         "lng": 37.6173,
         "lat": 55.7558

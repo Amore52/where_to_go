@@ -6,7 +6,7 @@ from tinymce.models import HTMLField
 class Location(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
     short_description = models.TextField(blank=True, verbose_name="Краткое описание")
-    long_discription = HTMLField(blank=True, verbose_name="Полное описание")
+    long_description = HTMLField(blank=True, verbose_name="Полное описание")
     lng = models.FloatField(verbose_name="Долгота")
     lat = models.FloatField(verbose_name="Широта")
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
