@@ -17,7 +17,7 @@ def main_page(request):
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [location.lng, location.lat],  # Долгота и широта
+                "coordinates": [location.lng, location.lat],
             },
             "properties": {
                 "title": location.title,
