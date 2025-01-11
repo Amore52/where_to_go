@@ -29,15 +29,20 @@
     ```
     pip install -r requirements.txt
 
-3. Создайте суперпользователя:
+3. Выполните миграции БД
+   ```
+   python manage.py makemigration
+   python manage.py migrate
+
+4. Создайте суперпользователя:
     ```
    python manage.py createsuperuser
 
-4. Запустите сервер разработки:
+5. Запустите сервер разработки:
     ```
    python manage.py runserver
 
-5. Откройте приложение по адресу ```http://127.0.0.1:8000```
+6. Откройте приложение по адресу ```http://127.0.0.1:8000```
 
 ## Использование
 
