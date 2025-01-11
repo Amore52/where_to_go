@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from catalog.models import Location, Image
+from places.models import Location, Image
 import json
 
 def main_page(request):

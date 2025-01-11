@@ -4,11 +4,11 @@ from urllib.parse import urlparse
 import requests
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
-from catalog.models import Location, Image
+from places.models import Location, Image
 
 
 class Command(BaseCommand):
-    help = "Load places from JSON files in a directory"
+    help = "Load place from JSON files in a directory"
 
     def add_arguments(self, parser):
         parser.add_argument('directory_path', type=str, help="Path to the directory containing JSON files")

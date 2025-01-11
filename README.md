@@ -39,7 +39,7 @@
 
 5. Выполните миграции БД
    ```
-   python manage.py makemigration
+   python manage.py makemigrations places
    python manage.py migrate
 
 6. Создайте суперпользователя:
