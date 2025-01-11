@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from places.models import Location, Image
 import json
+
+from django.http import JsonResponse
+from django.shortcuts import render
+
+from places.models import Location, Image
 
 
 def main_page(request):
@@ -15,16 +17,17 @@ def main_page(request):
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [location.lng, location.lat]  # Долгота и широта
+                "coordinates": [location.lng, location.lat],  # Долгота и широта
             },
             "properties": {
                 "title": location.title,
                 "placeId": location.id,
                 "detailsUrl": f"/places/{location.id}/",
-                "imgs": image_urls
-            }
+                "imgs": image_urls,
+            },
         }
         places_data.append(place_info)
+
     places_geojson = json.dumps(places_data)
     return render(request, 'index.html', {
         'places_geojson': places_geojson,

@@ -4,20 +4,23 @@ from tinymce.models import HTMLField
 
 
 class Location(models.Model):
-    title = models.CharField(max_length=200)
-    description_short = models.TextField()
-    description_long = HTMLField()
-    lng = models.FloatField()
-    lat = models.FloatField()
-    uploaded_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    title = models.CharField(max_length=200, verbose_name="Название")
+    description_short = models.TextField(verbose_name="Краткое описание")
+    description_long = HTMLField(verbose_name="Полное описание")
+    lng = models.FloatField(verbose_name="Долгота")
+    lat = models.FloatField(verbose_name="Широта")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
 
     def __str__(self):
         return self.title
 
+
 class Image(models.Model):
-    location = models.ForeignKey('Location', related_name='image', on_delete=models.CASCADE, blank=True, null=True)
-    image = models.ImageField(upload_to='images/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    location = models.ForeignKey(
+        'Location', related_name='image', on_delete=models.CASCADE, blank=True, null=True
+    )
+    image = models.ImageField(upload_to='images/', verbose_name="Изображение")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
     position = models.PositiveIntegerField(default=0, verbose_name="Позиция")
 
     class Meta:

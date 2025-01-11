@@ -1,9 +1,11 @@
 import json
 import os
 from urllib.parse import urlparse
+
 import requests
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
+
 from places.models import Location, Image
 
 
@@ -42,4 +44,3 @@ class Command(BaseCommand):
                         image_instance.image.save(image_name, ContentFile(response.content), save=True)
 
                 self.stdout.write(self.style.SUCCESS(f"Place '{place.title}' loaded successfully."))
-

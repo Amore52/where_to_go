@@ -1,12 +1,13 @@
-from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
+from adminsortable2.admin import SortableInlineAdminMixin
+
 from .models import Location, Image
 
 
 class ImageInline(SortableInlineAdminMixin, admin.TabularInline):
     model = Image
     extra = 1
-    fields = ['image', 'image_preview',  'position']
+    fields = ['image', 'image_preview', 'position']
     ordering = ['position']
     readonly_fields = ['image_preview']
 
@@ -17,8 +18,3 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     ordering = ('title',)
     inlines = [ImageInline]
-
-
-
-
-
