@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 
 class CatalogConfig(AppConfig):
-    name = 'places'
+    name = "places"

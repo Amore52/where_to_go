@@ -2,18 +2,19 @@ import json
 
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 from places.models import Location, Image
 
 
 def main_page(request):
-    places_data = []
+    locations_geojson = []
     locations = Location.objects.all()
 
     for location in locations:
-        images = Image.objects.filter(location=location)
-        image_urls = [image.image.url for image in images]
-        place_info = {
+        details_url = reverse("place_details", kwargs={"place_id": location.id})
+        place_properties = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -22,27 +23,25 @@ def main_page(request):
             "properties": {
                 "title": location.title,
                 "placeId": location.id,
-                "detailsUrl": f"/places/{location.id}/",
-                "imgs": image_urls,
+                "detailsUrl": details_url,
             },
         }
-        places_data.append(place_info)
+        locations_geojson.append(place_properties)
+    places_geojson = json.dumps(locations_geojson, ensure_ascii=False, indent=2)
 
-    places_geojson = json.dumps(places_data)
-    return render(request, 'index.html', {
-        'places_geojson': places_geojson,
+    return render(request, "index.html", {
+        "places_geojson": places_geojson,
     })
 
 
+
 def place_details(request, place_id):
-    try:
-        location = Location.objects.get(id=place_id)
-        images = Image.objects.filter(location=location)
+        location = get_object_or_404(Location.objects.prefetch_related('image'), id=place_id)
+        images = location.image.all()
         return JsonResponse({
-            'title': location.title,
-            'description_short': location.short_description,
-            'description_long': location.long_description,
-            'imgs': [image.image.url for image in images],
+            "title": location.title,
+           "description_short": location.short_description,
+           "description_long": location.long_description,
+           "imgs": [image.image.url for image in images],
         })
-    except Location.DoesNotExist:
-        return JsonResponse({'error': 'Place not found'}, status=404)
+

@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.html import mark_safe
+from django.utils.html import format_html
 from tinymce.models import HTMLField
 
 
@@ -17,18 +17,18 @@ class Location(models.Model):
 
 class Image(models.Model):
     location = models.ForeignKey(
-        'Location', related_name='image', on_delete=models.CASCADE
+        "Location", related_name="image", on_delete=models.CASCADE
     )
-    image = models.ImageField(upload_to='images/', verbose_name="Изображение")
+    image = models.ImageField(upload_to="images/", verbose_name="Изображение")
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
     position = models.PositiveIntegerField(default=0, db_index=True, verbose_name="Позиция")
 
     class Meta:
-        ordering = ['position']
+        ordering = ["position"]
 
     def image_preview(self):
         if self.image:
-            return mark_safe(f'<img src="{self.image.url}" style="width: 200px; height: auto;" />')
+            return format_html('<img src="{}" style="width: 200px; height: auto;" />', self.image.url)
         return "Нет изображения"
 
     image_preview.short_description = "Превью"

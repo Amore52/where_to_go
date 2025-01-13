@@ -1,8 +1,7 @@
 import json
+import requests
 import os
 from urllib.parse import urlparse
-
-import requests
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
 
@@ -10,37 +9,50 @@ from places.models import Location, Image
 
 
 class Command(BaseCommand):
-    help = "Load place from JSON files in a directory"
+    help = "Load place from a JSON URL"
 
     def add_arguments(self, parser):
-        parser.add_argument('directory_path', type=str, help="Path to the directory containing JSON files")
+        parser.add_argument("url", type=str, help="URL to the JSON file with place data")
 
     def handle(self, *args, **kwargs):
-        directory_path = kwargs['directory_path']
+        url = kwargs["url"]
+        self.stdout.write(self.style.NOTICE(f"Loading data from {url}"))
 
-        for file_name in os.listdir(directory_path):
-            if file_name.endswith('.json'):
-                file_path = os.path.join(directory_path, file_name)
-                self.stdout.write(self.style.NOTICE(f"Loading data from {file_path}"))
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            self.stderr.write(self.style.ERROR(f"Failed to fetch data: {e}"))
+            return
 
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    location_json = json.load(file)
+        try:
+            location_json = response.json()
+        except json.JSONDecodeError as e:
+            self.stderr.write(self.style.ERROR(f"Invalid JSON data: {e}"))
+            return
 
-                place, created = Location.objects.get_or_create(
-                    title=location_json['title'],
-                    defaults={
-                        'short_description': location_json['description_short'],
-                        'long_description': location_json['description_long'],
-                        'lng': location_json['coordinates']['lng'],
-                        'lat': location_json['coordinates']['lat'],
-                    }
-                )
 
-                for img_url in location_json['imgs']:
-                    response = requests.get(img_url)
-                    if response.status_code == 200:
-                        image_name = os.path.basename(urlparse(img_url).path)
-                        image_instance = Image(location=place)
-                        image_instance.image.save(image_name, ContentFile(response.content), save=True)
+        place, created = Location.objects.get_or_create(
+            title=location_json["title"],
+            defaults={
+                "short_description": location_json.get("description_short", ""),
+                "long_description": location_json.get("description_long", ""),
+                "lng": location_json["coordinates"]["lng"],
+                "lat": location_json["coordinates"]["lat"],
+            }
+        )
 
-                self.stdout.write(self.style.SUCCESS(f"Place '{place.title}' loaded successfully."))
+
+        for img_url in location_json.get("imgs", []):
+            try:
+                img_response = requests.get(img_url)
+                img_response.raise_for_status()
+            except requests.exceptions.RequestException as e:
+                self.stderr.write(self.style.ERROR(f"Failed to download image {img_url}: {e}"))
+                continue
+
+            image_name = os.path.basename(urlparse(img_url).path)
+            image_instance = Image(location=place)
+            image_instance.image.save(image_name, ContentFile(img_response.content), save=True)
+
+        self.stdout.write(self.style.SUCCESS(f"Place '{place.title}' loaded successfully."))
