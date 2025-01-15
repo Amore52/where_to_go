@@ -11,6 +11,9 @@ class Location(models.Model):
     lat = models.FloatField(verbose_name="Широта")
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
 
+    class Meta:
+        unique_together = ('title', 'lat', 'lng')
+
     def __str__(self):
         return self.title
 
