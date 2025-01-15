@@ -1,10 +1,7 @@
-import json
-
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-
-from places.models import Location, Image
+from django.shortcuts import get_object_or_404, render
+from places.models import Location
 
 
 def main_page(request):
@@ -26,16 +23,16 @@ def main_page(request):
             },
         }
         locations_geojson.append(place_properties)
-    places_geojson = json.dumps(locations_geojson, ensure_ascii=False, indent=2)
 
     return render(request, "index.html", {
-        "places_geojson": places_geojson,
+        "places_geojson": locations_geojson,
     })
 
 
 def place_details(request, place_id):
     location = get_object_or_404(Location.objects.prefetch_related('images'), id=place_id)
     images = location.images.all()
+
     return JsonResponse({
         "title": location.title,
         "description_short": location.short_description,

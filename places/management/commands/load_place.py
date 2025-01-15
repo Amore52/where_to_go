@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 continue
 
             image_name = os.path.basename(urlparse(img_url).path)
-            image_instance = Image(location=place)
-            image_instance.image.save(image_name, ContentFile(img_response.content), save=True)
+            image_file = ContentFile(img_response.content, name=image_name)
+            Image.objects.create(location=place, image=image_file)
 
         self.stdout.write(self.style.SUCCESS(f"Place '{place.title}' loaded successfully."))
