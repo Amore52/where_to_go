@@ -33,11 +33,11 @@ class Command(BaseCommand):
 
         place, created = Location.objects.get_or_create(
             title=raw_location["title"],
+            lat=raw_location["coordinates"]["lat"],
+            lng=raw_location["coordinates"]["lng"],
             defaults={
                 "short_description": raw_location.get("description_short", ""),
                 "long_description": raw_location.get("description_long", ""),
-                "lng": raw_location["coordinates"]["lng"],
-                "lat": raw_location["coordinates"]["lat"],
             }
         )
 
