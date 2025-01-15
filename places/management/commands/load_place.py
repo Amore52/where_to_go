@@ -26,22 +26,22 @@ class Command(BaseCommand):
             return
 
         try:
-            location_json = response.json()
+            raw_location = response.json()
         except json.JSONDecodeError as e:
             self.stderr.write(self.style.ERROR(f"Invalid JSON data: {e}"))
             return
 
         place, created = Location.objects.get_or_create(
-            title=location_json["title"],
+            title=raw_location["title"],
             defaults={
-                "short_description": location_json.get("description_short", ""),
-                "long_description": location_json.get("description_long", ""),
-                "lng": location_json["coordinates"]["lng"],
-                "lat": location_json["coordinates"]["lat"],
+                "short_description": raw_location.get("description_short", ""),
+                "long_description": raw_location.get("description_long", ""),
+                "lng": raw_location["coordinates"]["lng"],
+                "lat": raw_location["coordinates"]["lat"],
             }
         )
 
-        for img_url in location_json.get("imgs", []):
+        for img_url in raw_location.get("imgs", []):
             try:
                 img_response = requests.get(img_url)
                 img_response.raise_for_status()

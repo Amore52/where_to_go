@@ -34,8 +34,8 @@ def main_page(request):
 
 
 def place_details(request, place_id):
-    location = get_object_or_404(Location.objects.prefetch_related('image'), id=place_id)
-    images = location.image.all()
+    location = get_object_or_404(Location.objects.prefetch_related('images'), id=place_id)
+    images = location.images.all()
     return JsonResponse({
         "title": location.title,
         "description_short": location.short_description,

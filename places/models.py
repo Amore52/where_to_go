@@ -17,7 +17,7 @@ class Location(models.Model):
 
 class Image(models.Model):
     location = models.ForeignKey(
-        "Location", related_name="image", on_delete=models.CASCADE
+        "Location", related_name="images", on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="images/", verbose_name="Изображение")
     uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
