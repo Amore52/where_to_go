@@ -1,6 +1,6 @@
 import json
-import requests
 import os
+import requests
 from urllib.parse import urlparse
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
@@ -31,7 +31,6 @@ class Command(BaseCommand):
             self.stderr.write(self.style.ERROR(f"Invalid JSON data: {e}"))
             return
 
-
         place, created = Location.objects.get_or_create(
             title=location_json["title"],
             defaults={
@@ -41,7 +40,6 @@ class Command(BaseCommand):
                 "lat": location_json["coordinates"]["lat"],
             }
         )
-
 
         for img_url in location_json.get("imgs", []):
             try:

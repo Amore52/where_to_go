@@ -19,6 +19,7 @@ class LocationAdmin(admin.ModelAdmin):
     ordering = ("title",)
     inlines = [ImageInline]
 
+
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     list_display = ["__str__", "location", "uploaded_at", "position"]

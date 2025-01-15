@@ -28,7 +28,9 @@ class Image(models.Model):
 
     def image_preview(self):
         if self.image:
-            return format_html('<img src="{}" style="width: 200px; height: auto;" />', self.image.url)
+            return format_html(
+                '<img src="{}" style="width: 200px; height: auto;" />', self.image.url
+            )
         return "Нет изображения"
 
     image_preview.short_description = "Превью"

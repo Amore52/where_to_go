@@ -1,9 +1,8 @@
 import json
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
 
 from places.models import Location, Image
 
@@ -34,14 +33,12 @@ def main_page(request):
     })
 
 
-
 def place_details(request, place_id):
-        location = get_object_or_404(Location.objects.prefetch_related('image'), id=place_id)
-        images = location.image.all()
-        return JsonResponse({
-            "title": location.title,
-           "description_short": location.short_description,
-           "description_long": location.long_description,
-           "imgs": [image.image.url for image in images],
-        })
-
+    location = get_object_or_404(Location.objects.prefetch_related('image'), id=place_id)
+    images = location.image.all()
+    return JsonResponse({
+        "title": location.title,
+        "description_short": location.short_description,
+        "description_long": location.long_description,
+        "imgs": [image.image.url for image in images],
+    })
